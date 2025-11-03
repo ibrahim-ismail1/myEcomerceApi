@@ -10,4 +10,11 @@
     <ProjectReference Include="..\Ecom.DAL\Ecom.DAL.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="ModelVM\Account\" />
+    <Folder Include="ModelVM\Role\" />
+    <Folder Include="Service\Abstraction\" />
+    <Folder Include="Service\Implementation\" />
+  </ItemGroup>
+
 </Project>
