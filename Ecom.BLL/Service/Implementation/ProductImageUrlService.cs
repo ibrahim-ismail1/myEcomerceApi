@@ -1,9 +1,6 @@
 ﻿
 namespace Ecom.BLL.Service.Implementation
 
-  
-
-   
     {
         public class ProductImageUrlService : IProductImageUrlService
         {
