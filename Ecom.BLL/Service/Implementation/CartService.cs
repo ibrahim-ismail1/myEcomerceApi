@@ -59,6 +59,15 @@ namespace Ecom.BLL.Service.Implementation
             }
         }
 
+        // Get Cart by ID
+        public async Task<ResponseResult<GetCartVM>> GetByUserIdAsync(string id)
+        {
+            try
+            {
+                if (id != null)
+                {
+                    // Getting cart by id
+                    var cart = await _cartRepo.GetByUserIdAsync(id);
         // Get All Carts
         public async Task<ResponseResult<IEnumerable<GetCartVM>>> GetAllAsync()
         {
