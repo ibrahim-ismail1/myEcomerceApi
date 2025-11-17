@@ -15,8 +15,9 @@ namespace Ecom.BLL.Mapper
             // ----------------------------------------
             // ## Category Mappings
             // ----------------------------------------
-            // Category <-> CreateCategoryVM
-            CreateMap<Category, AddCategoryVM>().ReverseMap();
+            // CreateCategoryVM -> Category 
+            CreateMap<AddCategoryVM, Category>()
+                .ConstructUsing(vm => new Category(vm.Name!, vm.ImageUrl!, vm.CreatedBy!));
             // Category <-> UpdateCategoryVM
             CreateMap<Category, UpdateCategoryVM>().ReverseMap();
             // Category <-> GetCategoryVM
@@ -36,8 +37,9 @@ namespace Ecom.BLL.Mapper
                 .ForMember(dest => dest.CartItems, opt => opt.MapFrom(src => src.CartItems));
             // Cart <-> UpdateCartVM
             CreateMap<Cart, UpdateCartVM>().ReverseMap();
-            // Cart <-> AddCartVM
-            CreateMap<Cart, AddCartVM>().ReverseMap();
+            // AddCartVM -> Cart
+            CreateMap<AddCartVM, Cart>()
+                .ConstructUsing(vm => new Cart(vm.AppUserId!, vm.CreatedBy!));
             // Cart <-> DeleteCartVM
             CreateMap<Cart, DeleteCartVM>().ReverseMap();
             // ----------------------------------------
