@@ -98,6 +98,18 @@ namespace Ecom.DAL.Repo.Implementation
 
             return await _db.SaveChangesAsync() > 0;
         }
+
+        public async Task<bool> AddToQuantitySoldAsync(int productId, int quantity)
+        {
+            var product = await _db.Products.FindAsync(productId);
+            if (product == null) return false;
+
+            product.AddToQuantitySold(quantity);
+
+            return await _db.SaveChangesAsync() > 0;
+        }
     }
+
+
 
 }

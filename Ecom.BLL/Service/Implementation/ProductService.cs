@@ -133,7 +133,7 @@ namespace Ecom.BLL.Service.Implementation
                 {
                     try
                     {
-                        thumbnailUrl = await Upload.UploadFileAsync("ProductThumbnails", model.Thumbnail);
+                        thumbnailUrl = await Upload.UploadFileAsync("File/ProductThumbnail", model.Thumbnail);
                     }
                     catch (Exception ex)
                     {
@@ -152,7 +152,7 @@ namespace Ecom.BLL.Service.Implementation
                 {
                     // cleanup uploaded file on failure
                     if (!string.IsNullOrEmpty(thumbnailUrl) && thumbnailUrl != "default.png")
-                        await Upload.RemoveFileAsync("ProductThumbnails", thumbnailUrl);
+                        await Upload.RemoveFileAsync("File/ProductThumbnail", thumbnailUrl);
 
                     return new ResponseResult<bool>(false, "Failed to save product.", false);
                 }
@@ -180,10 +180,10 @@ namespace Ecom.BLL.Service.Implementation
                 {
                     try
                     {
-                        newThumb = await Upload.UploadFileAsync("ProductThumbnails", model.Thumbnail);
+                        newThumb = await Upload.UploadFileAsync("File/ProductThumbnail", model.Thumbnail);
                         if (!string.IsNullOrEmpty(existing.ThumbnailUrl) && existing.ThumbnailUrl != "default.png")
                         {
-                            await Upload.RemoveFileAsync("ProductThumbnails", existing.ThumbnailUrl);
+                            await Upload.RemoveFileAsync("File/ProductThumbnail", existing.ThumbnailUrl);
                         }
                     }
                     catch (Exception ex)
@@ -221,7 +221,7 @@ namespace Ecom.BLL.Service.Implementation
                 // optionally remove thumbnail
                 if (!string.IsNullOrEmpty(product.ThumbnailUrl) && product.ThumbnailUrl != "default.png")
                 {
-                    await Upload.RemoveFileAsync("ProductThumbnails", product.ThumbnailUrl);
+                    await Upload.RemoveFileAsync("File/ProductThumbnail", product.ThumbnailUrl);
                 }
 
                 return new ResponseResult<bool>(true, null, true);
@@ -271,6 +271,94 @@ namespace Ecom.BLL.Service.Implementation
         {
             return await _productRepo.UpdateRatingAsync(productId, newAverageRating);
         }
+
+        public async Task<ResponseResult<bool>> AddToQuantitySoldAsync(AddQuantitySoldVM model)
+        {
+            try
+            {
+                // STEP 1: Get product
+                var product = await _productRepo.GetByIdAsync(model.ProductId);
+                if (product == null)
+                    return new ResponseResult<bool>(false, "Product not found", false);
+
+                // STEP 2: Apply QuantitySold change
+                bool updated = await _productRepo.AddToQuantitySoldAsync(model.ProductId, model.QuantitySold);
+                if (!updated)
+                    return new ResponseResult<bool>(false, "Failed to update QuantitySold", false);
+
+                // STEP 3: Success
+                return new ResponseResult<bool>(true, null, true);
+            }
+            catch (Exception ex)
+            {
+                return new ResponseResult<bool>(false, ex.Message, false);
+            }
+        }
+
+        public async Task<ResponseResult<IEnumerable<GetProductVM>>> SearchByTitleAsync(string title)
+        {
+            try
+            {
+                var products = await _productRepo.GetAllAsync(
+                    p => !p.IsDeleted && p.Title.Contains(title),
+                    p => p.ProductImageUrls,
+                    p => p.ProductReviews,
+                    p => p.Brand,
+                    p => p.Category
+                );
+
+                var mapped = _mapper.Map<IEnumerable<GetProductVM>>(products);
+                return new ResponseResult<IEnumerable<GetProductVM>>(mapped, null, true);
+            }
+            catch (Exception ex)
+            {
+                return new ResponseResult<IEnumerable<GetProductVM>>(null, ex.Message, false);
+            }
+        }
+
+
+        public async Task<ResponseResult<IEnumerable<GetProductVM>>> SearchByPriceRangeAsync(decimal minPrice, decimal maxPrice)
+        {
+            try
+            {
+                var products = await _productRepo.GetAllAsync(
+                    p => !p.IsDeleted && p.Price >= minPrice && p.Price <= maxPrice,
+                    p => p.ProductImageUrls,
+                    p => p.ProductReviews,
+                    p => p.Brand,
+                    p => p.Category
+                );
+
+                var mapped = _mapper.Map<IEnumerable<GetProductVM>>(products);
+                return new ResponseResult<IEnumerable<GetProductVM>>(mapped, null, true);
+            }
+            catch (Exception ex)
+            {
+                return new ResponseResult<IEnumerable<GetProductVM>>(null, ex.Message, false);
+            }
+        }
+
+        public async Task<ResponseResult<IEnumerable<GetProductVM>>> SearchByRatingAsync(decimal minRating)
+        {
+            try
+            {
+                var products = await _productRepo.GetAllAsync(
+                    p => !p.IsDeleted && p.Rating >= minRating,
+                    p => p.ProductImageUrls,
+                    p => p.ProductReviews,
+                    p => p.Brand,
+                    p => p.Category
+                );
+
+                var mapped = _mapper.Map<IEnumerable<GetProductVM>>(products);
+                return new ResponseResult<IEnumerable<GetProductVM>>(mapped, null, true);
+            }
+            catch (Exception ex)
+            {
+                return new ResponseResult<IEnumerable<GetProductVM>>(null, ex.Message, false);
+            }
+        }
+
 
     }
 

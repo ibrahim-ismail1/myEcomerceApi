@@ -36,6 +36,16 @@ namespace Ecom.BLL.Service.Abstraction
 
         Task<bool> UpdateRatingAsync(int productId, decimal rating);
 
+        Task<ResponseResult<bool>> AddToQuantitySoldAsync(AddQuantitySoldVM model);
+
+
+        Task<ResponseResult<IEnumerable<GetProductVM>>> SearchByTitleAsync(string title);
+
+        
+        Task<ResponseResult<IEnumerable<GetProductVM>>> SearchByPriceRangeAsync(decimal minPrice, decimal maxPrice);
+
+       
+        Task<ResponseResult<IEnumerable<GetProductVM>>> SearchByRatingAsync(decimal minRating);
 
 
     }

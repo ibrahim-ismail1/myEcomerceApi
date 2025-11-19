@@ -102,7 +102,9 @@ namespace Ecom.BLL.Mapper
                     opt => opt.MapFrom(src => src.Brand.Name))
                 .ForMember(dest => dest.CategoryName,
                     opt => opt.MapFrom(src => src.Category.Name)).ReverseMap();
+            //AddQuantitySoldVM
 
+            CreateMap<Product, AddQuantitySoldVM>().ReverseMap();
             //Brand Mappings
 
             CreateMap<Brand, GetBrandVM>().ReverseMap();
