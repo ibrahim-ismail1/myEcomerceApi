@@ -24,8 +24,8 @@ namespace Ecom.BLL.Mapper
             // Category <-> UpdateCategoryVM
             CreateMap<Category, UpdateCategoryVM>().ReverseMap();
             // Category <-> GetCategoryVM
-            CreateMap<Category, GetCategoryVM>().ReverseMap()
-                .ForMember(dest => dest.Products, opt => opt.MapFrom(src => src.Products));
+            CreateMap<Category, GetCategoryVM>().ReverseMap();
+                //.ForMember(dest => dest.Products, opt => opt.MapFrom(src => src.Products));
             // Category <-> DeleteCategoryVM
             CreateMap<Category, DeleteCategoryVM>().ReverseMap();
             // ----------------------------------------

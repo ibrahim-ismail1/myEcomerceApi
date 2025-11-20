@@ -38,6 +38,9 @@ namespace Ecom.DAL.Common
             
 
             services.AddScoped<IProductImageUrlRepo, ProductImageUrlRepo>();
+            services.AddScoped<IProductRepo, ProductRepo>();
+            services.AddScoped<IProductReviewRepo, ProductReviewRepo>();
+
             //Dependency injection s When a controller or service asks for an IProductImageUrlRepo,
             // give them a new ProductImageUrlRepo instance for each HTTP request
             services.AddScoped<IBrandRepo, BrandRepo>();

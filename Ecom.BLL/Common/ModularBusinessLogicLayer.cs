@@ -1,4 +1,6 @@
 ﻿
+using Ecom.DAL.Repository.Implementation;
+
 namespace Ecom.BLL.Common
 {
     public static class ModularBusinessLogicLayer
@@ -47,6 +49,8 @@ namespace Ecom.BLL.Common
 
             services.AddScoped<IProductReviewService, ProductReviewService>();
             services.AddScoped<IRatingCalculatorService, RatingCalculatorService>();
+            services.AddScoped<IProductImageUrlService, ProductImageUrlService>();
+            services.AddScoped<IProductService, ProductService>();
             return services;
         }
     }
