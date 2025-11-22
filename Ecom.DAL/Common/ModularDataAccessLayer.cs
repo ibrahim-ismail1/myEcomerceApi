@@ -1,8 +1,3 @@
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.AspNetCore.Identity;
-using Ecom.DAL.Entity;
-using Ecom.DAL.Repo;
-using Ecom.DAL.Data; // Added to ensure ApplicationDbContext is recognized
 
 namespace Ecom.DAL.Common
 {
