@@ -94,9 +94,22 @@ namespace Ecom.BLL.Service.Implementation
         {
             try
             {
+
                 await orderRepo.UpdateAsync(id, userId,OrderStatus.Cancelled); //Cancel Product
                 await orderRepo.SaveChangesAsync();
                 // add return Quatity to Stock when Product is Finished
+                var OrderToBeCanceled = await GetByIdAsync(id);
+                if (OrderToBeCanceled != null)
+                {
+                    foreach(var item in OrderToBeCanceled.Result.Items)
+                    {
+                        var OrderItemReturn = await productService.IncreaseStockAsync(item.ProductId, item.Quantity);
+                        if (OrderItemReturn == null)
+                        {
+                            throw new Exception(OrderItemReturn.ErrorMessage);
+                        }
+                    }
+                }
                 return new ResponseResult<bool>(true, $"Order Cancelled Successfuly by {userId}", true);
             }
             catch (Exception ex)
