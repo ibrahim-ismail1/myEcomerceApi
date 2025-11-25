@@ -221,9 +221,11 @@ namespace Ecom.BLL.Mapper
 
             // ----------------------------------------
             // ## Payment Mappings
-            // ----------------------------------------
-            CreateMap<CreatePaymentVM, Payment>()
-                .ConstructUsing(vm => new Payment(vm.OrderId, vm.TotalAmount, vm.PaymentMethod, null, vm.CreatedBy!));
+            // ---------------------------------------
+            CreateMap<PaymentResultVM, Payment>()
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.PaymentId));
+
+            CreateMap<Payment, GetPaymentVM>().ReverseMap();
             // ----------------------------------------
 
 

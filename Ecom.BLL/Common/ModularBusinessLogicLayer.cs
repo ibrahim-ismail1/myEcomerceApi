@@ -81,7 +81,7 @@ namespace Ecom.BLL.Common
             services.AddScoped<ICartItemService, CartItemService>();
             services.AddScoped<ICartService, CartService>();
             
-            // services.AddScoped<IPaymentService, PaymentService>();
+            services.AddScoped<IPaymentService, PaymentService>();
 
             // Resolved Conflict: Included both Order and Review services
             services.AddScoped<IOrderService, OrderService>();
