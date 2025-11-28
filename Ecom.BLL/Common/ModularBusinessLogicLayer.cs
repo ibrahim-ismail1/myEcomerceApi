@@ -1,4 +1,3 @@
-
 using FaceRecognitionDotNet;
 
 // Note: Ensure you have the correct using statements for your specific Service classes
