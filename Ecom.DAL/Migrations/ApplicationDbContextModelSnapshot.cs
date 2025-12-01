@@ -883,7 +883,7 @@ namespace Ecom.DAL.Migrations
                     b.HasOne("Ecom.DAL.Entity.AppUser", "AppUser")
                         .WithOne("Cart")
                         .HasForeignKey("Ecom.DAL.Entity.Cart", "AppUserId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("AppUser");
