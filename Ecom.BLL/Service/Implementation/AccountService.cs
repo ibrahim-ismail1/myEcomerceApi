@@ -41,7 +41,7 @@ namespace Ecom.BLL.Service.Implementation
                 }
 
                 //2- Handle file upload
-                string? uploadedImageUrl = "default.png";
+                string? uploadedImageUrl = null;
                 if (registerVM.ProfileImage != null)
                 {
                     try
@@ -337,7 +337,7 @@ namespace Ecom.BLL.Service.Implementation
                     // 3. If not, create a new AppUser using info from the provider
                     string email = info.Principal.FindFirstValue(ClaimTypes.Email) ?? Guid.NewGuid().ToString() + "@temp.com";
                     string displayName = info.Principal.FindFirstValue(ClaimTypes.Name) ?? "New User";
-                    string? uploadedImageUrl = "default.png"; // use default image
+                    string? uploadedImageUrl = null; // default image
 
                     user = new AppUser(email, displayName, uploadedImageUrl, email, null); // created by same user's email
                     user.EmailConfirmed = true;
